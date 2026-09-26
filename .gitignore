@@ -1,0 +1,20 @@
+# Python environment และไฟล์ที่สร้างอัตโนมัติ
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# ข้อมูลดิบ (23 MB ใช้แค่ตอนเทรน แอปไม่ต้องใช้)
+*.csv
+
+# โมเดลรุ่นเก่าที่เก็บไว้เทียบผล (แอปไม่ได้ใช้)
+rf_model_v1_18feat.joblib
+
+# เอกสารรายงาน
+*.docx
+
+# ไฟล์ของระบบและ editor
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
