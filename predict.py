@@ -10,7 +10,6 @@ predict.py
     p.predict_one({
         "incident_datetime": "2022-11-19 23:10",
         "province_en": "Surin",
-        "agency": "department of rural roads",
         "vehicle_type": "motorcycle",
         "accident_type": "head-on collision (not overtaking)",
         "number_of_vehicles_involved": 2,
@@ -31,7 +30,7 @@ import pandas as pd
 
 import rf_features as rf  # ต้อง import ก่อน joblib.load เพื่อให้หาคลาส GeoImputer เจอ
 
-REQUIRED = ["incident_datetime", "province_en", "agency", "vehicle_type", "accident_type",
+REQUIRED = ["incident_datetime", "province_en", "vehicle_type", "accident_type",
             "number_of_vehicles_involved", "weather_condition", "road_description"]
 
 
@@ -48,7 +47,7 @@ class FatalityPredictor:
         if missing:
             raise ValueError(f"ขาดคอลัมน์ที่จำเป็น: {missing}")
         warnings = []
-        for col, key in [("province_en", "province"), ("agency", "agency"),
+        for col, key in [("province_en", "province"),
                          ("vehicle_type", "vehicle_type"), ("accident_type", "accident_type"),
                          ("weather_condition", "weather_condition"), ("road_description", "road_description")]:
             if key not in self.known:
@@ -81,15 +80,15 @@ class FatalityPredictor:
 
 
 DEMO = [
-    {"incident_datetime": "2022-11-19 23:10", "province_en": "Surin", "agency": "department of rural roads",
+    {"incident_datetime": "2022-11-19 23:10", "province_en": "Surin",
      "vehicle_type": "motorcycle", "accident_type": "head-on collision (not overtaking)",
      "number_of_vehicles_involved": 2, "weather_condition": "clear", "road_description": "wide curve",
      "latitude": 14.88, "longitude": 103.49},
-    {"incident_datetime": "2022-06-14 13:20", "province_en": "Chon Buri", "agency": "department of highways",
+    {"incident_datetime": "2022-06-14 13:20", "province_en": "Chon Buri",
      "vehicle_type": "private/passenger car", "accident_type": "rear-end collision",
      "number_of_vehicles_involved": 2, "weather_condition": "rainy", "road_description": "straight road",
      "latitude": 13.36, "longitude": 100.98},
-    {"incident_datetime": "2022-09-03 19:40", "province_en": "Nakhon Ratchasima", "agency": "department of highways",
+    {"incident_datetime": "2022-09-03 19:40", "province_en": "Nakhon Ratchasima",
      "vehicle_type": "pedestrian", "accident_type": "pedestrian collision",
      "number_of_vehicles_involved": 1, "weather_condition": "dark",
      "road_description": "t-intersection"},  # ไม่ใส่พิกัด -> ใช้ค่ากลางของจังหวัด

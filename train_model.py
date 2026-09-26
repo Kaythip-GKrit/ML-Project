@@ -5,7 +5,7 @@ train_model.py
 ฝึกโมเดล Random Forest ตัวสุดท้าย แล้วบันทึกเป็นไฟล์พร้อมใช้งาน (rf_model.joblib)
 
 ขั้นตอน:
-  1. โหลด CSV -> ตัดเหตุชนท้ายที่มียานพาหนะ 0-1 คัน -> ทำความสะอาด -> สร้าง 22 Features
+  1. โหลด CSV -> ตัดเหตุชนท้ายที่มียานพาหนะ 0-1 คัน -> ทำความสะอาด -> สร้าง 21 Features
   2. แบ่ง Train/Test แบบ Stratified 80/20 (seed 42 เหมือนในรายงาน)
   3. Tuning ด้วย RandomizedSearchCV (16 ชุด, 5-fold CV, เกณฑ์ PR-AUC) บนชุดฝึก
   4. หา threshold ที่ให้ F1 สูงสุด จาก 5-fold Cross-validation บนชุดฝึก
@@ -61,7 +61,7 @@ def main():
     ap.add_argument("--out", default="rf_model.joblib")
     ap.add_argument("--full", action="store_true", help="ฝึกใหม่ด้วยข้อมูลทั้งหมดหลังประเมินผล")
     ap.add_argument("--no-tune", action="store_true", help="ข้าม RandomizedSearchCV ใช้ BEST_RF_PARAMS")
-    ap.add_argument("--compare", default="model_info_v1_18feat.json",
+    ap.add_argument("--compare", default="model_info_v2_22feat.json",
                     help="ไฟล์ model_info ของโมเดลเดิม สำหรับพิมพ์ผลเทียบ")
     args = ap.parse_args()
     t0 = time.time()
@@ -115,8 +115,9 @@ def main():
     print("ผลบนชุดทดสอบ:", {k: round(v, 4) if isinstance(v, float) else v for k, v in test_metrics.items()})
 
     if os.path.exists(args.compare):
-        old = json.load(open(args.compare, encoding="utf-8"))["test_metrics"]
-        print(f"\n{'metric':<10}{'เดิม (18)':>12}{f'ใหม่ ({X.shape[1]})':>12}{'ต่าง':>10}")
+        old_info = json.load(open(args.compare, encoding="utf-8"))
+        old, n_old = old_info["test_metrics"], len(old_info["features"])
+        print(f"\n{'metric':<10}{f'เดิม ({n_old})':>12}{f'ใหม่ ({X.shape[1]})':>12}{'ต่าง':>10}")
         for k in ["accuracy", "precision", "recall", "f1", "roc_auc", "pr_auc"]:
             print(f"{k:<10}{old[k]:>12.4f}{test_metrics[k]:>12.4f}{test_metrics[k] - old[k]:>+10.4f}")
 
@@ -139,7 +140,6 @@ def main():
     # 7. บันทึก
     known = {
         "province": sorted(raw["province_en"].replace({"buogkan": "Bueng Kan"}).loc[lambda s: s != "unknown"].unique().tolist()),
-        "agency": sorted(raw["agency"].unique().tolist()),
         "vehicle_type": sorted(raw["vehicle_type"].unique().tolist()),
         "accident_type": sorted(raw["accident_type"].unique().tolist()),
         "weather_condition": sorted(raw["weather_condition"].dropna().str.strip().str.lower().unique().tolist()),

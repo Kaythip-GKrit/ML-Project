@@ -9,6 +9,7 @@ __pycache__/
 
 # โมเดลรุ่นเก่าที่เก็บไว้เทียบผล (แอปไม่ได้ใช้)
 rf_model_v1_18feat.joblib
+rf_model_v2_22feat.joblib
 
 # เอกสารรายงาน
 *.docx

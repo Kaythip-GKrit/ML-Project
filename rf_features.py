@@ -20,13 +20,14 @@ from sklearn.preprocessing import OneHotEncoder
 SEED = 42
 
 # ---------------------------------------------------------------------------
-# Features 22 ตัวที่โมเดลใช้
-#   - 18 ตัวเดิม (คัดจาก Permutation Importance ของ Random Forest)
-#   - 4 ตัวใหม่: weather_condition, weather_group, road_description, road_group
+# Features 21 ตัวที่โมเดลใช้
+#   - 17 ตัวจากชุดเดิม (คัดจาก Permutation Importance ของ Random Forest)
+#     ตัด agency ออกแล้ว เพราะไม่ให้ผู้ใช้เลือกหน่วยงานในเว็บแอป
+#   - 4 ตัวด้านสภาพแวดล้อม: weather_condition, weather_group, road_description, road_group
 # ---------------------------------------------------------------------------
 NUM_FEATURES = ["is_vulnerable_user", "is_newyear", "hour", "is_songkran", "lon", "lat",
                 "night_motorcycle", "month", "n_vehicles", "is_bkk_metro", "is_night", "is_weekend"]
-CAT_FEATURES = ["agency", "vehicle_type", "vehicle_group", "province", "region", "accident_group",
+CAT_FEATURES = ["vehicle_type", "vehicle_group", "province", "region", "accident_group",
                 "weather_condition", "weather_group", "road_description", "road_group"]
 FEATURES = NUM_FEATURES + CAT_FEATURES
 
@@ -101,7 +102,7 @@ ROAD_GROUP = {
 def clean(df: pd.DataFrame) -> pd.DataFrame:
     """
     รับ DataFrame ที่มีคอลัมน์แบบไฟล์ CSV ต้นฉบับ อย่างน้อย:
-      incident_datetime, province_en, agency, vehicle_type, accident_type,
+      incident_datetime, province_en, vehicle_type, accident_type,
       number_of_vehicles_involved, weather_condition, road_description, latitude, longitude
     """
     d = df.copy()
@@ -157,7 +158,7 @@ def engineer(d: pd.DataFrame) -> pd.DataFrame:
 
 
 def prepare(df: pd.DataFrame) -> pd.DataFrame:
-    """ข้อมูลดิบ -> ตาราง 22 Features พร้อมส่งเข้าโมเดล"""
+    """ข้อมูลดิบ -> ตาราง 21 Features พร้อมส่งเข้าโมเดล"""
     return engineer(clean(df))[FEATURES]
 
 

@@ -1,5 +1,5 @@
 {
- "threshold": 0.2507230629339837,
+ "threshold": 0.2606462221502256,
  "features": [
   "is_vulnerable_user",
   "is_newyear",
@@ -13,7 +13,6 @@
   "is_bkk_metro",
   "is_night",
   "is_weekend",
-  "agency",
   "vehicle_type",
   "vehicle_group",
   "province",
@@ -25,10 +24,10 @@
   "road_group"
  ],
  "params": {
-  "n_estimators": 150,
-  "min_samples_leaf": 3,
-  "max_features": 0.2,
-  "max_depth": 18,
+  "n_estimators": 250,
+  "min_samples_leaf": 5,
+  "max_features": 0.3,
+  "max_depth": 25,
   "class_weight": null
  },
  "tuning": {
@@ -36,7 +35,7 @@
   "n_iter": 16,
   "cv": 5,
   "scoring": "average_precision",
-  "best_cv_pr_auc": 0.49673874839926774,
+  "best_cv_pr_auc": 0.48562288389944736,
   "param_space": {
    "n_estimators": [
     150,
@@ -148,11 +147,6 @@
    "Yala",
    "Yasothon"
   ],
-  "agency": [
-   "department of highways",
-   "department of rural roads",
-   "expressway authority of thailand"
-  ],
   "vehicle_type": [
    "4-wheel pickup truck",
    "6-wheel truck",
@@ -215,40 +209,39 @@
   ]
  },
  "test_metrics": {
-  "accuracy": 0.8630573248407644,
-  "precision": 0.4570281124497992,
-  "recall": 0.5628090999010881,
-  "f1": 0.5044326241134752,
-  "roc_auc": 0.8386767471693657,
-  "pr_auc": 0.5035807024087822,
-  "tn": 12954.0,
-  "fp": 1352.0,
-  "fn": 884.0,
-  "tp": 1138.0
+  "accuracy": 0.8652008819206272,
+  "precision": 0.4622203461376108,
+  "recall": 0.5415430267062314,
+  "f1": 0.49874743794124343,
+  "roc_auc": 0.8319936555570813,
+  "pr_auc": 0.49190521858972514,
+  "tn": 13032.0,
+  "fp": 1274.0,
+  "fn": 927.0,
+  "tp": 1095.0
  },
  "permutation_importance": {
-  "accident_group": 0.11070307420270817,
-  "is_vulnerable_user": 0.06154488690727179,
-  "agency": 0.03958924024585163,
-  "lon": 0.038691282343348773,
-  "lat": 0.03093859230260476,
-  "is_newyear": 0.02835929940922146,
-  "n_vehicles": 0.02684293882273674,
-  "vehicle_group": 0.02533744734279313,
-  "province": 0.022414273451231193,
-  "is_songkran": 0.01713740290553444,
-  "hour": 0.01699915074454781,
-  "vehicle_type": 0.012793326762607282,
-  "region": 0.012762220518409705,
-  "is_bkk_metro": 0.007743549719830034,
-  "is_night": 0.00700274656901404,
-  "night_motorcycle": 0.005343393810874719,
-  "road_group": 0.0022319246609170283,
-  "road_description": 0.001930603328101066,
-  "month": 0.0003967455316010282,
-  "is_weekend": 0.0003320336808204205,
-  "weather_condition": 0.0002858597260027462,
-  "weather_group": 2.7827441942718244e-05
+  "accident_group": 0.1111002476115082,
+  "is_vulnerable_user": 0.10749276568783177,
+  "lon": 0.04603547656517326,
+  "lat": 0.03935428743602879,
+  "is_newyear": 0.032293980166739664,
+  "n_vehicles": 0.026757302851040287,
+  "province": 0.022863549567695006,
+  "is_songkran": 0.018326826247225182,
+  "hour": 0.016813382910460306,
+  "vehicle_group": 0.015621398787256002,
+  "vehicle_type": 0.009433243740765141,
+  "region": 0.008336939982061475,
+  "is_night": 0.007743910554588396,
+  "is_bkk_metro": 0.00767107738646301,
+  "night_motorcycle": 0.003485805619117466,
+  "road_description": 0.0020778002706820396,
+  "road_group": 0.0020087531098331056,
+  "weather_condition": 0.0009623388852400772,
+  "is_weekend": 0.0005348484187737479,
+  "weather_group": 0.00034906475509937084,
+  "month": -0.0010018943730326745
  },
  "trained_on": "80% train split",
  "sklearn_version": "1.8.0"

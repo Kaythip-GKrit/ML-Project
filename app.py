@@ -23,11 +23,6 @@ VEHICLE_TH = {
     "large truck with trailer": "รถบรรทุกพ่วง", "large passenger vehicle": "รถโดยสารขนาดใหญ่",
     "tractor/agricultural vehicle": "รถไถ/รถการเกษตร", "other": "อื่น ๆ",
 }
-AGENCY_TH = {
-    "department of highways": "กรมทางหลวง",
-    "department of rural roads": "กรมทางหลวงชนบท",
-    "expressway authority of thailand": "การทางพิเศษแห่งประเทศไทย",
-}
 ACCIDENT_TH = {
     "rollover/fallen on straight road": "พลิกคว่ำ/ล้มบนทางตรง",
     "rollover/fallen on curved road": "พลิกคว่ำ/ล้มบนทางโค้ง",
@@ -101,9 +96,7 @@ with tab1:
                            index=k["weather_condition"].index("clear"))
     road = c8.selectbox("ลักษณะถนน", k["road_description"], format_func=lambda v: ROAD_TH.get(v, v),
                         index=k["road_description"].index("straight road"))
-    c3, c4 = st.columns(2)
-    province = c3.selectbox("จังหวัด", k["province"], index=k["province"].index("Surin"))
-    agency = c4.selectbox("หน่วยงานที่รับผิดชอบถนน", k["agency"], format_func=lambda v: AGENCY_TH.get(v, v))
+    province = st.selectbox("จังหวัด", k["province"], index=k["province"].index("Surin"))
     use_coord = st.checkbox("ระบุพิกัด (ถ้าไม่ระบุ จะใช้ค่ากลางของจังหวัด)")
     c5, c6 = st.columns(2)
     lat = c5.number_input("Latitude", value=14.88, format="%.5f", disabled=not use_coord)
@@ -115,7 +108,7 @@ with tab1:
     elif submitted:
         record = {
             "incident_datetime": f"{date} {time.strftime('%H:%M')}",
-            "province_en": province, "agency": agency, "vehicle_type": vehicle,
+            "province_en": province, "vehicle_type": vehicle,
             "accident_type": accident, "number_of_vehicles_involved": int(n_veh),
             "weather_condition": weather, "road_description": road,
             "latitude": lat if use_coord else None, "longitude": lon if use_coord else None,
@@ -132,7 +125,7 @@ with tab1:
 
 # --------------------------------------------------------------------------- tab 2
 with tab2:
-    st.write("อัปโหลดไฟล์ CSV ที่มีคอลัมน์ `incident_datetime, province_en, agency, vehicle_type, "
+    st.write("อัปโหลดไฟล์ CSV ที่มีคอลัมน์ `incident_datetime, province_en, vehicle_type, "
              "accident_type, number_of_vehicles_involved, weather_condition, road_description` "
              "(ใส่ `latitude, longitude` ด้วยได้)")
     up = st.file_uploader("เลือกไฟล์ CSV", type="csv")

@@ -4,10 +4,11 @@
 
 | ไฟล์ | หน้าที่ |
 |---|---|
-| `rf_features.py` | ทำความสะอาดข้อมูล สร้าง 22 Features และประกอบ Pipeline (**ต้องอยู่คู่กับไฟล์โมเดลเสมอ**) |
+| `rf_features.py` | ทำความสะอาดข้อมูล สร้าง 21 Features และประกอบ Pipeline (**ต้องอยู่คู่กับไฟล์โมเดลเสมอ**) |
 | `train_model.py` | Tuning ด้วย RandomizedSearchCV, เลือก threshold จาก CV, ประเมินผลชุดทดสอบ + Permutation Importance แล้วบันทึก `rf_model.joblib` |
 | `rf_model.joblib` | โมเดลที่ฝึกแล้ว พร้อม threshold และรายการค่าที่โมเดลรู้จัก |
-| `rf_model_v1_18feat.joblib`, `model_info_v1_18feat.json` | โมเดลรุ่นเดิม (18 Features ไม่มีสภาพอากาศ/ลักษณะถนน) เก็บไว้เทียบผล |
+| `rf_model_v1_18feat.joblib`, `model_info_v1_18feat.json` | โมเดลรุ่นแรก (18 Features ไม่มีสภาพอากาศ/ลักษณะถนน) เก็บไว้เทียบผล |
+| `rf_model_v2_22feat.joblib`, `model_info_v2_22feat.json` | โมเดลรุ่นที่ 2 (22 Features มี agency) เก็บไว้เทียบผล |
 | `model_info.json` | ข้อมูลโมเดลและผลประเมินแบบอ่านได้ |
 | `predict.py` | คลาส `FatalityPredictor` สำหรับเรียกใช้จากโค้ดอื่น และใช้ทำนายไฟล์ CSV จาก command line |
 | `app.py` | เว็บแอป Streamlit (กรอกทีละเหตุการณ์ / อัปโหลด CSV) |
@@ -47,7 +48,6 @@ p = FatalityPredictor("rf_model.joblib")
 p.predict_one({
     "incident_datetime": "2022-11-19 23:10",
     "province_en": "Surin",
-    "agency": "department of rural roads",
     "vehicle_type": "motorcycle",
     "accident_type": "head-on collision (not overtaking)",
     "number_of_vehicles_involved": 2,
@@ -69,7 +69,6 @@ streamlit run app.py
 |---|---|---|
 | `incident_datetime` | `2022-11-19 23:10` | ใช่ |
 | `province_en` | `Surin` | ใช่ |
-| `agency` | `department of highways` | ใช่ |
 | `vehicle_type` | `motorcycle` | ใช่ |
 | `accident_type` | `rear-end collision` | ใช่ |
 | `number_of_vehicles_involved` | `2` (ถ้าเป็นชนท้าย เว็บแอปบังคับ ≥ 2) | ใช่ |
